@@ -32,10 +32,10 @@ class  Main extends React.Component{
           </section>
           <section className="elements elements_page_size">
           </section>
-          {/* <PopupWithForm title="Редактировать профиль" name=""/>
+          <PopupWithForm title="Редактировать профиль" name=""/>
           <PopupWithForm title="Обновить аватар" name=""/>
           <PopupWithForm title="Новое место" name=""/>
-          <PopupWithForm title="Вы уверены?" name=""/> */}
+          <PopupWithForm title="Вы уверены?" name=""/>
           <div className="popup" id="popup_type_profile">
             <div className="popup__container">
               <button className="popup__close-icon" type="button" aria-label="закрыть форму" id="button_close_profile"></button>
