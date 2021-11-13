@@ -1,7 +1,7 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 import Card from './Card';
-import api from '../utils/api.js';
+import api from '../utils/Api';
 import ImagePopup from './ImagePopup';
 
 function  Main(props){
