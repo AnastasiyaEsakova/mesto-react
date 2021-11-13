@@ -2,31 +2,36 @@ import React from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
+
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState('');
 
+  function handleCardClick (card){
+    setSelectedCard(card);
+  }
   function handleEditAvatarClick(){
-    setIsEditAvatarPopupOpen({isEditAvatarPopupOpen: !isEditAvatarPopupOpen});
-    document.querySelector('.popup').classList.add('popup_opened');
+    setIsEditAvatarPopupOpen(true);
   }
   function handleEditProfileClick(){
-    setIsEditProfilePopupOpen({isEditProfilePopupOpen: !isEditProfilePopupOpen});
-    document.querySelector('.popup').classList.add('popup_opened');
+    setIsEditProfilePopupOpen(true);
   }
   function handleAddPlaceClick(){
-    setIsAddPlacePopupOpen({isAddPlacePopupOpen: !isAddPlacePopupOpen});
-    document.querySelector('.popup').classList.add('popup_opened');
+    setIsAddPlacePopupOpen(true);
   }
   function closeAllPopups(){
-    document.querySelector('.popup_opened').classList.remove('popup_opened');
+    setSelectedCard('');
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
   }
   return (
     <div className="page">
       <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closePopup={closeAllPopups}/>
+      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closePopup={closeAllPopups}
+      profileOpen={isEditProfilePopupOpen} avatarOpen={isEditAvatarPopupOpen} addPhotoOpen={isAddPlacePopupOpen} card={selectedCard} onCardClick={handleCardClick}/>
       <Footer />
     </div>
   );
