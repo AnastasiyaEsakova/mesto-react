@@ -82,7 +82,7 @@ function  Main(props){
             <span className="popup__error" id="link-error"></span>
             <button className="popup__button" type="submit" id="add-photo-button" value="Создать">Создать</button>
           </PopupWithForm>
-          <PopupWithForm title="Вы уверены?" name="check" isOpen={false} onClose={props.closePopup}>
+          <PopupWithForm title="Вы уверены?" name="check"  onClose={props.closePopup}>
             <button className="popup__button popup__button_el_check" type="submit" id="delete-button">Да</button>
           </PopupWithForm>
           <ImagePopup onClose={props.closePopup} card={props.card}/>
