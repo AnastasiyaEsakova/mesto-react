@@ -13,16 +13,39 @@ function App() {
 
   function handleCardClick (card){
     setSelectedCard(card);
+    closeWhithEsc();
   }
   function handleEditAvatarClick(){
     setIsEditAvatarPopupOpen(true);
+    closeWhithEsc();
   }
   function handleEditProfileClick(){
     setIsEditProfilePopupOpen(true);
+    closeWhithEsc();
   }
   function handleAddPlaceClick(){
     setIsAddPlacePopupOpen(true);
+    closeWhithEsc();
   }
+
+  const [isClose, setIsClose] = React.useState(false);
+  function closeWhithEsc(){
+    setIsClose(!isClose);
+  }
+  function handleKeyDown(evt){
+    if (evt.key === "Escape"){
+      closeAllPopups();
+    }
+  }
+  React.useEffect(() => {
+    if(isClose){
+      document.addEventListener("keydown", handleKeyDown);
+      return (() =>{
+        document.removeEventListener('keydown', handleKeyDown);
+      })
+    }
+  }, [isClose]);
+
   function closeAllPopups(){
     setSelectedCard({name:'', link:''});
     setIsEditAvatarPopupOpen(false);
