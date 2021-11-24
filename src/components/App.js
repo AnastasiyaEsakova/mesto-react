@@ -4,13 +4,24 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import api from '../utils/Api.js';
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({name:'', link:''});
-
+  const [currentUser, setCurrentUser ] = React.useState('');
+  React.useEffect(() => {
+    api.getProfileInfo()
+    .then((res) => {
+      setCurrentUser(res)
+    })
+    .catch((err) => {
+      alert(err + "Ошибка с запросом данных пользователя");
+    })
+  },[]);
   function handleCardClick (card){
     setSelectedCard(card);
     closeWhithEsc();
@@ -57,35 +68,37 @@ function App() {
     // временная функция обработки input
   }
   return (
-    <div className="page">
-      <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}
-      onCardClick={handleCardClick}/>
-      <Footer />
-      <PopupWithForm title="Редактировать профиль" name="profile" onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} buttonText="Сохранить">
-        <input className="popup__input popup__input_el_name" id ="name-profile" name="name" type="text" value="Jacques Cousteau"
-        placeholder="Имя" minLength="2" maxLength="40" required onChange={handleChange}/>
-        <span className="popup__error" id="name-profile-error"></span>
-        <input className=" popup__input popup__input_el_job" id="job-profile" type="text" value="Sailor, researcher"
-                 placeholder="Описание" name="about" minLength="2" maxLength="200" required onChange={handleChange}/>
-        <span className="popup__error" id="job-profile-error"></span>
-      </PopupWithForm>
-      <PopupWithForm title="Обновить аватар" name="avatar" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} buttonText="Сохранить">
-        <input className=" popup__input popup__input_el_avatar" id="avatar" type="url"
-        placeholder="Ссылка на фото" name="avatar" required onChange={handleChange}/>
-        <span className="popup__error" id="avatar-error"></span>
-      </PopupWithForm>
-      <PopupWithForm title="Новое место" name="place" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} buttonText="Создать">
-        <input className="popup__input popup__input_el_place-name" id="place-name" type="text"
-        placeholder="Название" name="name" minLength="2" maxLength="30" required onChange={handleChange}/>
-        <span className="popup__error" id="place-name-error"></span>
-        <input className=" popup__input popup__input_el_link" id="link" type="url"
-        placeholder="Ссылка на картинку" name="link" required onChange={handleChange}/>
-        <span className="popup__error" id="link-error"></span>
-      </PopupWithForm>
-      <PopupWithForm title="Вы уверены?" name="check" onClose={closeAllPopups} buttonText="Да" />
-      <ImagePopup onClose={closeAllPopups} card={selectedCard}/>
-    </div>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <Header />
+        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}/>
+        <Footer />
+        <PopupWithForm title="Редактировать профиль" name="profile" onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} buttonText="Сохранить">
+          <input className="popup__input popup__input_el_name" id ="name-profile" name="name" type="text" value="Jacques Cousteau"
+          placeholder="Имя" minLength="2" maxLength="40" required onChange={handleChange}/>
+          <span className="popup__error" id="name-profile-error"></span>
+          <input className=" popup__input popup__input_el_job" id="job-profile" type="text" value="Sailor, researcher"
+                  placeholder="Описание" name="about" minLength="2" maxLength="200" required onChange={handleChange}/>
+          <span className="popup__error" id="job-profile-error"></span>
+        </PopupWithForm>
+        <PopupWithForm title="Обновить аватар" name="avatar" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} buttonText="Сохранить">
+          <input className=" popup__input popup__input_el_avatar" id="avatar" type="url"
+          placeholder="Ссылка на фото" name="avatar" required onChange={handleChange}/>
+          <span className="popup__error" id="avatar-error"></span>
+        </PopupWithForm>
+        <PopupWithForm title="Новое место" name="place" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} buttonText="Создать">
+          <input className="popup__input popup__input_el_place-name" id="place-name" type="text"
+          placeholder="Название" name="name" minLength="2" maxLength="30" required onChange={handleChange}/>
+          <span className="popup__error" id="place-name-error"></span>
+          <input className=" popup__input popup__input_el_link" id="link" type="url"
+          placeholder="Ссылка на картинку" name="link" required onChange={handleChange}/>
+          <span className="popup__error" id="link-error"></span>
+        </PopupWithForm>
+        <PopupWithForm title="Вы уверены?" name="check" onClose={closeAllPopups} buttonText="Да" />
+        <ImagePopup onClose={closeAllPopups} card={selectedCard}/>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
