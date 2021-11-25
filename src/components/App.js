@@ -3,6 +3,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
 import ImagePopup from './ImagePopup';
 import api from '../utils/Api.js';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
@@ -16,7 +17,7 @@ function App() {
   React.useEffect(() => {
     api.getProfileInfo()
     .then((res) => {
-      setCurrentUser(res)
+      setCurrentUser(res);
     })
     .catch((err) => {
       alert(err + "Ошибка с запросом данных пользователя");
@@ -67,6 +68,16 @@ function App() {
     console.log(evt.target.value);
     // временная функция обработки input
   }
+  function handleUpdateUser(userInfo){
+    api.setProfileInfo(userInfo)
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -74,14 +85,15 @@ function App() {
         <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}
         onCardClick={handleCardClick}/>
         <Footer />
-        <PopupWithForm title="Редактировать профиль" name="profile" onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} buttonText="Сохранить">
+        {/* <PopupWithForm title="Редактировать профиль" name="profile" onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} buttonText="Сохранить">
           <input className="popup__input popup__input_el_name" id ="name-profile" name="name" type="text" value="Jacques Cousteau"
           placeholder="Имя" minLength="2" maxLength="40" required onChange={handleChange}/>
           <span className="popup__error" id="name-profile-error"></span>
           <input className=" popup__input popup__input_el_job" id="job-profile" type="text" value="Sailor, researcher"
                   placeholder="Описание" name="about" minLength="2" maxLength="200" required onChange={handleChange}/>
           <span className="popup__error" id="job-profile-error"></span>
-        </PopupWithForm>
+        </PopupWithForm> */}
+        <EditProfilePopup onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} onUpdateUser={handleUpdateUser}/>
         <PopupWithForm title="Обновить аватар" name="avatar" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} buttonText="Сохранить">
           <input className=" popup__input popup__input_el_avatar" id="avatar" type="url"
           placeholder="Ссылка на фото" name="avatar" required onChange={handleChange}/>
