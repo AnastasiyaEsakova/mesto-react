@@ -1,52 +1,51 @@
 import React from 'react';
 import Card from './Card';
-import api from '../utils/Api';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function  Main(props){
   const currentUser = React.useContext(CurrentUserContext);
-  const [cards, setCards] = React.useState([]);
+  // const [cards, setCards] = React.useState([]);
 
-  React.useEffect(() =>{
-    api.getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch(err =>{
-        alert(err + " Ошибка с запросом карточек");
-      });
-  }, []);
+  // React.useEffect(() =>{
+  //   api.getInitialCards()
+  //     .then((res) => {
+  //       setCards(res);
+  //     })
+  //     .catch(err =>{
+  //       alert(err + " Ошибка с запросом карточек");
+  //     });
+  // }, []);
 
-  function handleCardLike(card){
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-    if(isLiked){
-      api.deleteLike(card._id)
-        .then((newCard) => {
-          setCards((prevCards) => prevCards.map((c) => c._id === card._id ? newCard : c));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else{
-      api.setLike(card._id)
-        .then((newCard) =>{
-          setCards((prevCards) => prevCards.map((c) => c._id === card._id ? newCard : c));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-  }
+  // function handleCardLike(card){
+  //   const isLiked = card.likes.some(i => i._id === currentUser._id);
+  //   if(isLiked){
+  //     api.deleteLike(card._id)
+  //       .then((newCard) => {
+  //         setCards((prevCards) => prevCards.map((c) => c._id === card._id ? newCard : c));
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   } else{
+  //     api.setLike(card._id)
+  //       .then((newCard) =>{
+  //         setCards((prevCards) => prevCards.map((c) => c._id === card._id ? newCard : c));
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   };
+  // }
 
-  function handleCardDelete(card){
-    api.deleteCard(card._id)
-      .then(() => {
-        setCards((prevCards) => prevCards.filter((c) => c._id !== card._id && c));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  // function handleCardDelete(card){
+  //   api.deleteCard(card._id)
+  //     .then(() => {
+  //       setCards((prevCards) => prevCards.filter((c) => c._id !== card._id && c));
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
     return(
       <main className="content">
         <section className="profile profile_page_size">
@@ -64,9 +63,9 @@ function  Main(props){
           <button className="profile__button" type="button" aria-label="добавить фото" onClick={props.onAddPlace}></button>
         </section>
         <section className="elements elements_page_size">
-          {cards.map((card) =>{
+          {props.cards.map((card) =>{
             return (
-              <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+              <Card card={card} key={card._id} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete}/>
             )
           })}
         </section>
