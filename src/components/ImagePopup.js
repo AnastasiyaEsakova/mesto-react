@@ -1,6 +1,13 @@
 function ImagePopup(props){
+
+  function handleOverlayClose(e){
+    if(e.target.classList.contains('popup')){
+      props.onClose();
+    };
+  }
   return(
-    <div className= {props.card.link !== '' ? "popup popup_opened popup_type_image" : "popup popup_type_image"} id='popup_type_image'>
+    <div className= {props.isOpen ? "popup popup_opened popup_type_image" : "popup popup_type_image"}
+    id='popup_type_image' onClick={handleOverlayClose}>
       <div className="popup__container popup__container_type_image">
         <button className="popup__close-icon" type="button" aria-label="закрыть форму" id="button_close_image" onClick={props.onClose}></button>
         <figure className="popup__image-container">

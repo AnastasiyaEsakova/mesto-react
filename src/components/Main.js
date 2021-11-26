@@ -4,48 +4,6 @@ import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function  Main(props){
   const currentUser = React.useContext(CurrentUserContext);
-  // const [cards, setCards] = React.useState([]);
-
-  // React.useEffect(() =>{
-  //   api.getInitialCards()
-  //     .then((res) => {
-  //       setCards(res);
-  //     })
-  //     .catch(err =>{
-  //       alert(err + " Ошибка с запросом карточек");
-  //     });
-  // }, []);
-
-  // function handleCardLike(card){
-  //   const isLiked = card.likes.some(i => i._id === currentUser._id);
-  //   if(isLiked){
-  //     api.deleteLike(card._id)
-  //       .then((newCard) => {
-  //         setCards((prevCards) => prevCards.map((c) => c._id === card._id ? newCard : c));
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   } else{
-  //     api.setLike(card._id)
-  //       .then((newCard) =>{
-  //         setCards((prevCards) => prevCards.map((c) => c._id === card._id ? newCard : c));
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
-  // }
-
-  // function handleCardDelete(card){
-  //   api.deleteCard(card._id)
-  //     .then(() => {
-  //       setCards((prevCards) => prevCards.filter((c) => c._id !== card._id && c));
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
     return(
       <main className="content">
         <section className="profile profile_page_size">

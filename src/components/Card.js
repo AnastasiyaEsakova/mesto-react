@@ -17,6 +17,7 @@ function Card(props){
   function handleDeleteClick(){
     props.onCardDelete(props.card);
   }
+
   return(
     <article className="element">
       <button className={cardDeleteButtonClassName} type="button" aria-label="удалить фото" onClick={handleDeleteClick}></button>
