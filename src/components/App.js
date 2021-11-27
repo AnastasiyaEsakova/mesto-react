@@ -18,22 +18,13 @@ function App() {
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
 
+  const [cards, setCards] = React.useState([]);
   const [selectedCard, setSelectedCard] = React.useState({name:'', link:''});
   const [deletedCard, setDeletedCard] = React.useState('');
   const [currentUser, setCurrentUser ] = React.useState('');
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-
-  React.useEffect(() => {
-    api.getProfileInfo()
-    .then((res) => {
-      setCurrentUser(res);
-    })
-    .catch((err) => {
-      alert(err + "Ошибка с запросом данных пользователя");
-    })
-  },[]);
   function handleCardClick (card){
     setSelectedCard(card);
     setIsImagePopupOpen(true);
@@ -52,34 +43,26 @@ function App() {
     setDeletedCard(card);
     setIsConfirmationPopupOpen(true);
   }
-  // const [isClose, setIsClose] = React.useState(false);
-  // function closeWhithEsc(){
-  //   setIsClose(!isClose);
-  // }
-  // function handleKeyDown(evt){
-  //   if (evt.key === "Escape"){
-  //     closeAllPopups();
-  //   }
-  // }
-  // React.useEffect(() => {
-  //   if(isClose){
-  //     document.addEventListener("keydown", handleKeyDown);
-  //     return (() =>{
-  //       document.removeEventListener('keydown', handleKeyDown);
-  //     })
-  //   }
-  // }, [isClose]);
 
   function closeAllPopups(){
     setTimeout(() => {
       setSelectedCard({name:'', link:''});
-    }, 3000);
+    }, 400);
     setIsImagePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsConfirmationPopupOpen(false);
   }
+  React.useEffect(() => {
+    api.getProfileInfo()
+    .then((res) => {
+      setCurrentUser(res);
+    })
+    .catch((err) => {
+      alert(err + "Ошибка с запросом данных пользователя");
+    })
+  },[]);
 
   function handleUpdateUser(userInfo){
     setIsLoading(true);
@@ -109,8 +92,6 @@ function App() {
         setIsLoading(false);
       });
   }
-
-  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() =>{
     api.getInitialCards()
@@ -179,7 +160,7 @@ function App() {
       <div className="page">
         <Header />
         <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}
-        onCardClick={handleCardClick} cards={cards}  onCardLike={handleCardLike} onCardDelete={handleDeletePopupClick}/>
+        onCardClick={handleCardClick} cards={cards}  onCardLike={handleCardLike} onCardDeleteClick={handleDeletePopupClick}/>
         <Footer />
         <IsLoadingContext.Provider value={isLoading}>
           <EditProfilePopup onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} onUpdateUser={handleUpdateUser} isLoading={isLoading}/>
