@@ -10,7 +10,7 @@ function PopupWithForm(props){
           <form className="popup__form" name={props.name} id={`form_${props.name}`} onSubmit={props.onSubmit}>
             <h2 className="popup__title">{props.title}</h2>
             {props.children}
-            <button className={`popup__button popup__button_el_${props.name}`} type="submit" id={`button_${props.name}`}
+            <button className={`popup__button popup__button_el_${props.name} ${props.formValid ? "" : "popup__button_disabled"}`} type="submit" id={`button_${props.name}`}
             value={props.buttonText}>{props.isLoading ? 'Сохранение...' : props.buttonText}</button>
           </form>
         </div>
